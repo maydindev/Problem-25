@@ -1,13 +1,23 @@
 import { CheckIcon } from '@heroicons/react/20/solid'
-import { useRef } from 'react'
+import { useRef,useState } from 'react'
 
 //"Satın alma planı" butonuna tıklandığında sayfanın en üstüne pürüzsüz bir şekilde kaydırılması gerekiyor
 // Ayrıca butona tıklandığında arkaplan renginin anlık olarak değişmesi veya başka bir görsel efektin eklenmesi kullanıcı deneyimini artırabilir.
 export default function LandingPage() {
   const pricingRef = useRef()
+  const [clicked,setClicked] = useState(false)
 
   function goToPricing() {
     pricingRef.current.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleClickPurchase = () => {
+    window.scrollTo({top:0, /*behavior:"smooth"*/})
+
+    setClicked(true)
+    setTimeout(() =>{
+      setClicked(false)
+    },500)
   }
 
   return (
@@ -66,7 +76,7 @@ export default function LandingPage() {
             ref={pricingRef}
             className='isolate mx-auto mt-16 grid max-w-sm grid-cols-1 gap-y-8 sm:mt-20'
           >
-            <div className='flex flex-col justify-center rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10 lg:z-10 lg:rounded-b-none'>
+            <div className={`flex flex-col justify-center rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10 lg:z-10 lg:rounded-b-none ${clicked ? "bg-indigo-100" : ""}`}>
               <div>
                 <div className='flex items-center justify-between gap-x-4'>
                   <h3 className='text-indigo-600 text-lg font-semibold leading-8'>
@@ -111,6 +121,7 @@ export default function LandingPage() {
               <a
                 href='#'
                 className='mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500'
+                onClick={handleClickPurchase}
               >
                 Satın alma planı
               </a>
